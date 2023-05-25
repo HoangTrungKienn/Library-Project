@@ -12,13 +12,14 @@ class registerUser(View):
         rF = registerForm
         return render(request, 'UserMember/register.html', {'rF' : rF})
     def post(self, request):
+        lF = loginForm
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
 
         user = User.objects.create_user(username, email, password)
         user.save()
-        return render(request, 'login.html', {'loginForm' : loginForm})
+        return render(request, 'UserMember/login.html', {'lF' : lF})
 
 class loginUser(View):
     def get(self, request):
@@ -31,7 +32,8 @@ class loginUser(View):
 
         if user is not None:
             login(request, user)
-            return render(request, 'books.html')
+            lF = loginForm
+            return render(request, 'home.html')
         else:
             return HttpResponse('login fail')
 
